@@ -26,13 +26,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div className="text-xs text-muted-foreground">Decision Support Platform</div>
             </div>
           </Link>
-          <nav className="hidden md:flex items-center gap-2">
+          <nav className="hidden md:flex items-center gap-1.5">
             {nav.map((n) => (
               <Link
                 key={n.to}
                 to={n.to}
                 className={cn(
-                  "px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                  "px-3.5 py-2 rounded-full text-sm font-medium transition-colors",
                   pathname === n.to
                     ? "bg-secondary text-secondary-foreground"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
