@@ -57,7 +57,9 @@ export default function CSVImporter({ source }: { source: string }) {
   const [name, setName] = useState<string>("");
   const [headers, setHeaders] = useState<string[]>([]);
   const [rows, setRows] = useState<string[][]>([]);
-  const [status, setStatus] = useState<null | { ok: boolean; message: string }>(null);
+  const [status, setStatus] = useState<null | { ok: boolean; message: string }>(
+    null,
+  );
   const [loading, setLoading] = useState(false);
 
   const preview = useMemo(() => rows.slice(0, 5), [rows]);
@@ -76,15 +78,26 @@ export default function CSVImporter({ source }: { source: string }) {
   async function ingest() {
     try {
       setLoading(true);
-      const objects = rows.map((r) => Object.fromEntries(headers.map((h, i) => [h, r[i] ?? ""])));
-      const payload = { source, fileName: name, count: objects.length, headers, rows: objects.slice(0, 1000) };
+      const objects = rows.map((r) =>
+        Object.fromEntries(headers.map((h, i) => [h, r[i] ?? ""])),
+      );
+      const payload = {
+        source,
+        fileName: name,
+        count: objects.length,
+        headers,
+        rows: objects.slice(0, 1000),
+      };
       const res = await fetch("/api/ingest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      setStatus({ ok: res.ok, message: data?.message ?? (res.ok ? "Ingested" : "Failed") });
+      setStatus({
+        ok: res.ok,
+        message: data?.message ?? (res.ok ? "Ingested" : "Failed"),
+      });
     } catch (e) {
       setStatus({ ok: false, message: (e as Error).message });
     } finally {
@@ -106,16 +119,30 @@ export default function CSVImporter({ source }: { source: string }) {
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
             <div className="font-medium">Upload CSV for {source}</div>
-            <div className="text-xs text-muted-foreground">Select a .csv exported from your system</div>
+            <div className="text-xs text-muted-foreground">
+              Select a .csv exported from your system
+            </div>
           </div>
           <div className="flex items-center gap-2">
-            <Input ref={fileRef} type="file" accept=".csv,text/csv" onChange={onFile} />
-            <Button variant="outline" onClick={reset} disabled={!name}>Clear</Button>
-            <Button onClick={ingest} disabled={!rows.length || loading}>{loading ? "Uploading..." : "Ingest"}</Button>
+            <Input
+              ref={fileRef}
+              type="file"
+              accept=".csv,text/csv"
+              onChange={onFile}
+            />
+            <Button variant="outline" onClick={reset} disabled={!name}>
+              Clear
+            </Button>
+            <Button onClick={ingest} disabled={!rows.length || loading}>
+              {loading ? "Uploading..." : "Ingest"}
+            </Button>
           </div>
         </div>
         {name && (
-          <div className="text-sm">Selected: <Badge variant="secondary">{name}</Badge> · Rows: {rows.length}</div>
+          <div className="text-sm">
+            Selected: <Badge variant="secondary">{name}</Badge> · Rows:{" "}
+            {rows.length}
+          </div>
         )}
         {!!headers.length && (
           <div className="overflow-x-auto">
@@ -123,7 +150,12 @@ export default function CSVImporter({ source }: { source: string }) {
               <thead className="bg-muted">
                 <tr>
                   {headers.map((h) => (
-                    <th key={h} className="text-left p-2 border-r last:border-r-0">{h}</th>
+                    <th
+                      key={h}
+                      className="text-left p-2 border-r last:border-r-0"
+                    >
+                      {h}
+                    </th>
                   ))}
                 </tr>
               </thead>
@@ -131,7 +163,12 @@ export default function CSVImporter({ source }: { source: string }) {
                 {preview.map((r, i) => (
                   <tr key={i} className="border-t">
                     {headers.map((h, j) => (
-                      <td key={j} className="p-2 border-r last:border-r-0 whitespace-nowrap">{r[j]}</td>
+                      <td
+                        key={j}
+                        className="p-2 border-r last:border-r-0 whitespace-nowrap"
+                      >
+                        {r[j]}
+                      </td>
                     ))}
                   </tr>
                 ))}

@@ -6,7 +6,9 @@ export const handleIngest: RequestHandler = (req, res) => {
     if (!source || !Array.isArray(rows)) {
       return res.status(400).json({ message: "Invalid payload" });
     }
-    const uniqueHeaders = Array.isArray(headers) ? Array.from(new Set(headers)) : [];
+    const uniqueHeaders = Array.isArray(headers)
+      ? Array.from(new Set(headers))
+      : [];
     const limited = Array.isArray(rows) ? rows.slice(0, 3) : [];
     return res.json({
       message: `Received ${count ?? rows.length} rows for ${source}${fileName ? ` from ${fileName}` : ""}.`,
