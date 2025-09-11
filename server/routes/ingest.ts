@@ -1,6 +1,6 @@
 import type { RequestHandler } from "express";
 
-export const handleIngest: RequestHandler = (req, res) => {
+export const handleIngest: RequestHandler = async (req, res) => {
   try {
     const { source, fileName, count, headers, rows } = req.body ?? {};
     if (!source || !Array.isArray(rows)) {
