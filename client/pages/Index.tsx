@@ -129,7 +129,7 @@ export default function Index() {
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/15 via-accent/10 to-transparent" />
+        <div className="absolute inset-0 -z-10 bg-mesh bg-grid" />
         <div className="container mx-auto py-12 md:py-16">
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div>
