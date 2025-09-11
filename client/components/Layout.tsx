@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Train, PlayCircle, Database, Settings2, History, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import ModeToggle from "@/components/ModeToggle";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation();
@@ -52,7 +53,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Button>
             {/* Theme toggle */}
             <div className="hidden sm:block">
-              {(await import("./ModeToggle")).default()}
+              <ModeToggle />
             </div>
           </div>
         </div>
