@@ -1,0 +1,9 @@
+job_id,train_id,system,description,priority,status,created_at,due_date,work_type,bay_block,safety_critical
+MX-1001,KM-001,HVAC,Compressor vibration high,High,OPEN,2025-09-09,2025-09-12,CM,No,Yes
+MX-1002,KM-003,Doors,Door close time slow,Medium,OPEN,2025-09-10,2025-09-15,PM,Yes,No
+MX-1003,KM-005,Brakes,Brake pad thickness low,High,OPEN,2025-09-08,2025-09-11,CM,Yes,Yes
+MX-1004,KM-002,Telecom,PA speaker distortion,Low,CLOSED,2025-09-05,2025-09-08,CM,No,No
+MX-1005,KM-004,Signalling,ATC antenna alignment,High,OPEN,2025-09-07,2025-09-10,CM,No,Yes
+MX-1006,KM-006,Bogie,Bogie bearing temp check,Medium,CLOSED,2025-09-06,2025-09-09,PM,No,No
+MX-1007,KM-009,Interior,LED panel flicker,Low,OPEN,2025-09-10,2025-09-20,CM,No,No
+MX-1008,KM-011,Telecom,Train radio dropout,High,OPEN,2025-09-09,2025-09-12,CM,No,Yes
