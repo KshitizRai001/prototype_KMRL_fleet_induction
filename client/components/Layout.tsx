@@ -50,6 +50,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <PlayCircle className="h-4 w-4" /> Run Optimisation
               </Link>
             </Button>
+            {/* Theme toggle */}
+            <div className="hidden sm:block">
+              {(await import("./ModeToggle")).default()}
+            </div>
           </div>
         </div>
       </header>
