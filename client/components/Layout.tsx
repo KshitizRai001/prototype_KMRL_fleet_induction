@@ -1,5 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
-import { Train, PlayCircle, Database, Settings2, History, Sparkles } from "lucide-react";
+import {
+  Train,
+  PlayCircle,
+  Database,
+  Settings2,
+  History,
+  Sparkles,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import ModeToggle from "@/components/ModeToggle";
@@ -23,8 +30,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Train className="h-5 w-5" />
             </div>
             <div className="leading-tight">
-              <div className="font-extrabold tracking-tight">KMRL Fleet Induction</div>
-              <div className="text-xs text-muted-foreground">Decision Support Platform</div>
+              <div className="font-extrabold tracking-tight">
+                KMRL Fleet Induction
+              </div>
+              <div className="text-xs text-muted-foreground">
+                Decision Support Platform
+              </div>
             </div>
           </Link>
           <nav className="hidden md:flex items-center gap-1.5">
@@ -65,9 +76,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="container mx-auto py-6 text-sm text-muted-foreground flex flex-col md:flex-row items-center justify-between gap-2">
           <div>© {new Date().getFullYear()} Kochi Metro Rail Limited</div>
           <div className="flex items-center gap-4">
-            <a href="#" className="hover:text-foreground">Privacy</a>
-            <a href="#" className="hover:text-foreground">Terms</a>
-            <a href="#" className="hover:text-foreground">Status</a>
+            <a href="#" className="hover:text-foreground">
+              Privacy
+            </a>
+            <a href="#" className="hover:text-foreground">
+              Terms
+            </a>
+            <a href="#" className="hover:text-foreground">
+              Status
+            </a>
           </div>
         </div>
       </footer>

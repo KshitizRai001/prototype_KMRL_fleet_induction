@@ -9,7 +9,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "rounded-full bg-gradient-to-r from-brand to-accent text-primary-foreground shadow-sm hover:shadow-md hover:from-brand/90 hover:to-accent/90",
+        default:
+          "rounded-full bg-gradient-to-r from-brand to-accent text-primary-foreground shadow-sm hover:shadow-md hover:from-brand/90 hover:to-accent/90",
         destructive:
           "rounded-full bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
