@@ -137,10 +137,10 @@ export default function Index() {
                 <Sparkles className="h-3.5 w-3.5 text-primary" /> Multi‑objective fleet induction
               </div>
               <h1 className="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight">
-                Algorithm‑driven decisions for Kochi Metro trainset induction
+                Smarter nightly induction for Kochi Metro
               </h1>
               <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
-                Ingest clearances and work orders, enforce constraints, optimise for service readiness, cost and branding exposure, and publish an explainable ranked list—every night, reliably.
+                One place to validate clearances, honour constraints and SLAs, and publish a transparent ranked list — every night within the operating window.
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <Button asChild>
