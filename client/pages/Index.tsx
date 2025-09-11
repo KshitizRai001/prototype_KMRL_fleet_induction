@@ -137,7 +137,7 @@ export default function Index() {
                 <Sparkles className="h-3.5 w-3.5 text-primary" /> Multi‑objective fleet induction
               </div>
               <h1 className="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight">
-                Smarter nightly induction for Kochi Metro
+                Algorithm‑driven decisions for Kochi Metro trainset induction
               </h1>
               <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
                 One place to validate clearances, honour constraints and SLAs, and publish a transparent ranked list — every night within the operating window.
