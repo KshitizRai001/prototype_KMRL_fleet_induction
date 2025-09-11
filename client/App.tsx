@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Layout from "@/components/Layout";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import DataFeeds from "./pages/DataFeeds";
 import Rules from "./pages/Rules";
 import Simulate from "./pages/Simulate";
@@ -18,23 +19,25 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/data" element={<DataFeeds />} />
-            <Route path="/rules" element={<Rules />} />
-            <Route path="/simulate" element={<Simulate />} />
-            <Route path="/history" element={<HistoryPage />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
-    </TooltipProvider>
+    <ThemeProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/data" element={<DataFeeds />} />
+              <Route path="/rules" element={<Rules />} />
+              <Route path="/simulate" element={<Simulate />} />
+              <Route path="/history" element={<HistoryPage />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
