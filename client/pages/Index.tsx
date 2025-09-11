@@ -157,7 +157,7 @@ export default function Index() {
                   <CardDescription>Target punctuality</CardDescription>
                   <CardTitle className="text-3xl">99.5%</CardTitle>
                 </CardHeader>
-                <CardContent className="text-sm text-muted-foreground">Protected by automated FC and job‑card checks</CardContent>
+                <CardContent className="text-sm text-muted-foreground">Backed by automated FC and job‑card gating</CardContent>
               </Card>
               <Card>
                 <CardHeader className="pb-2">
