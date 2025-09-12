@@ -30,9 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Train className="h-5 w-5" />
             </div>
             <div className="leading-tight">
-              <div className="font-extrabold tracking-tight">
-                R.O.P.S.
-              </div>
+              <div className="font-extrabold tracking-tight">R.O.P.S.</div>
               <div className="text-xs text-muted-foreground">
                 Rail Optmization and Planning System
               </div>
