@@ -31,10 +31,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
             <div className="leading-tight">
               <div className="font-extrabold tracking-tight">
-                KMRL Fleet Induction
+                R.O.P.S.
               </div>
               <div className="text-xs text-muted-foreground">
-                Decision Support Platform
+                Rail Optmization and Planning System
               </div>
             </div>
           </Link>
