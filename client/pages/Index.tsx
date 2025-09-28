@@ -518,25 +518,26 @@ export default function Index() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Clock4 className="h-5 w-5 text-primary" /> Nightly run
+                  <ShieldCheck className="h-5 w-5 text-primary" />{" "}
+                  Explainability
                 </CardTitle>
-                <CardDescription>
-                  21:00 ingest → 22:00 optimise → 23:00 publish
-                </CardDescription>
+                <CardDescription>Selected rake rationale</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-3 text-sm">
-                <div className="rounded-md border p-3">
-                  Ingest feeds and validate FCs
-                </div>
-                <div className="rounded-md border p-3">
-                  Apply constraints and weights
-                </div>
-                <div className="rounded-md border p-3">
-                  Rank rakes with explanations
-                </div>
-                <div className="rounded-md border p-3">
-                  Notify conflicts for overrides
-                </div>
+              <CardContent>
+                {selectedTrain ? (
+                  <div className="space-y-2 text-sm">
+                    <div className="font-medium">{selectedTrain.t.id}</div>
+                    <ul className="list-disc pl-5 text-muted-foreground space-y-1">
+                      {explain(selectedTrain.t).map((r) => (
+                        <li key={r}>{r}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <div className="text-sm text-muted-foreground">
+                    Select a rake from the table to view reasoning.
+                  </div>
+                )}
               </CardContent>
             </Card>
 
@@ -568,26 +569,25 @@ export default function Index() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <ShieldCheck className="h-5 w-5 text-primary" />{" "}
-                  Explainability
+                  <Clock4 className="h-5 w-5 text-primary" /> Nightly run
                 </CardTitle>
-                <CardDescription>Selected rake rationale</CardDescription>
+                <CardDescription>
+                  21:00 ingest → 22:00 optimise → 23:00 publish
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                {selectedTrain ? (
-                  <div className="space-y-2 text-sm">
-                    <div className="font-medium">{selectedTrain.t.id}</div>
-                    <ul className="list-disc pl-5 text-muted-foreground space-y-1">
-                      {explain(selectedTrain.t).map((r) => (
-                        <li key={r}>{r}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : (
-                  <div className="text-sm text-muted-foreground">
-                    Select a rake from the table to view reasoning.
-                  </div>
-                )}
+              <CardContent className="space-y-3 text-sm">
+                <div className="rounded-md border p-3">
+                  Ingest feeds and validate FCs
+                </div>
+                <div className="rounded-md border p-3">
+                  Apply constraints and weights
+                </div>
+                <div className="rounded-md border p-3">
+                  Rank rakes with explanations
+                </div>
+                <div className="rounded-md border p-3">
+                  Notify conflicts for overrides
+                </div>
               </CardContent>
             </Card>
           </div>

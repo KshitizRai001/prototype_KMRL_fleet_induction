@@ -6,6 +6,7 @@ import {
   Settings2,
   History,
   Sparkles,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -58,6 +59,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Button asChild size="sm">
               <Link to="/simulate">
                 <PlayCircle className="h-4 w-4" /> Run Optimisation
+              </Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link to="/login">
+                <LogOut className="h-4 w-4" /> Logout
               </Link>
             </Button>
             {/* Theme toggle */}
