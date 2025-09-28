@@ -14,6 +14,7 @@ import DataFeeds from "./pages/DataFeeds";
 import Rules from "./pages/Rules";
 import Simulate from "./pages/Simulate";
 import HistoryPage from "./pages/History";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
 
@@ -24,9 +25,16 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          {/* Public routes without layout */}
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+
+          {/* App routes with layout */}
           <Layout>
             <Routes>
-              <Route path="/" element={<Index />} />
+              <Route path="/dashboard" element={<Index />} />
               <Route path="/data" element={<DataFeeds />} />
               <Route path="/rules" element={<Rules />} />
               <Route path="/simulate" element={<Simulate />} />
