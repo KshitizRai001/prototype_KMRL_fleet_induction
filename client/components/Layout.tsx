@@ -14,7 +14,7 @@ import ModeToggle from "@/components/ModeToggle";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation();
   const nav = [
-    { to: "/", label: "Dashboard", icon: Sparkles },
+    { to: "/dashboard", label: "Dashboard", icon: Sparkles },
     { to: "/data", label: "Data Feeds", icon: Database },
     { to: "/rules", label: "Rules", icon: Settings2 },
     { to: "/simulate", label: "Simulate", icon: PlayCircle },
@@ -25,7 +25,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-background/70 border-b">
         <div className="container mx-auto flex items-center justify-between py-3">
-          <Link to="/" className="flex items-center gap-2">
+          <Link to="/dashboard" className="flex items-center gap-2">
             <div className="h-9 w-9 grid place-items-center rounded-md bg-gradient-to-br from-primary to-accent text-primary-foreground shadow-brand">
               <Train className="h-5 w-5" />
             </div>
