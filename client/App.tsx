@@ -34,7 +34,8 @@ const App = () => (
 
 function RouterSwitch() {
   const location = useLocation();
-  const isAuthRoute = location.pathname === "/" || location.pathname === "/login";
+  const isAuthRoute =
+    location.pathname === "/" || location.pathname === "/login";
 
   if (isAuthRoute) {
     return (

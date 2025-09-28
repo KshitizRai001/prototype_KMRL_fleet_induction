@@ -1,5 +1,11 @@
 import { Train, LogIn, Shield, Users } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -16,15 +22,19 @@ export default function Login() {
               <Train className="h-5 w-5" />
             </div>
             <div className="leading-tight text-left">
-              <div className="font-extrabold tracking-tight text-xl">R.O.P.S.</div>
-              <div className="text-xs text-muted-foreground">Rail Optmization and Planning System</div>
+              <div className="font-extrabold tracking-tight text-xl">
+                R.O.P.S.
+              </div>
+              <div className="text-xs text-muted-foreground">
+                Rail Optmization and Planning System
+              </div>
             </div>
           </div>
           <CardTitle>Sign in</CardTitle>
           <CardDescription>Select an access type</CardDescription>
         </CardHeader>
         <CardContent className="pt-2 space-y-3">
-          <Button className="w-full" onClick={() => navigate("/dashboard")}> 
+          <Button className="w-full" onClick={() => navigate("/dashboard")}>
             <LogIn className="h-4 w-4 mr-2" /> Staff login
           </Button>
           <Button
