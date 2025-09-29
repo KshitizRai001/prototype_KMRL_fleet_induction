@@ -64,6 +64,6 @@ localPort = 42989
 externalPort = 3000
 
 [deployment]
-deploymentTarget = "vm"
+deploymentTarget = "autoscale"
 build = ["npm", "run", "build"]
-run = ["bash", "-c", "cd kmrl_backend && python manage.py runserver 0.0.0.0:8000 & npm run start"]
+run = ["npm", "run", "start"]

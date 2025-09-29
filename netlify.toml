@@ -3,9 +3,12 @@
   functions = "netlify/functions"
   publish = "dist/spa"
 
+[build.environment]
+  NODE_VERSION = "20"
+  NPM_VERSION = "10"
 
 [functions]
-  external_node_modules = ["express"]
+  external_node_modules = ["express", "cors", "dotenv"]
   node_bundler = "esbuild"
   
 [[redirects]]
@@ -13,3 +16,22 @@
   from = "/api/*"
   status = 200
   to = "/.netlify/functions/api/:splat"
+
+# Catch-all redirect for React Router (SPA)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Context-specific environment variables
+[context.production.environment]
+  ENVIRONMENT = "production"
+  NODE_ENV = "production"
+
+[context.deploy-preview.environment]
+  ENVIRONMENT = "staging"
+  NODE_ENV = "production"
+
+[context.branch-deploy.environment]
+  ENVIRONMENT = "development"
+  NODE_ENV = "development"
