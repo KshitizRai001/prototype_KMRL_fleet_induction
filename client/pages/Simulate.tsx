@@ -3,17 +3,10 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { PlayCircle, Brain, Database, TrendingUp } from "lucide-react";
+import { PlayCircle, TrendingUp } from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
-interface MLModel {
-  id: number;
-  name: string;
-  model_type: string;
-  is_active: boolean;
-  latest_training: any;
-}
 
 interface PredictionResult {
   predictions: number[];
@@ -27,11 +20,8 @@ interface PredictionResult {
 
 export default function Simulate() {
   const [weights, setWeights] = useState({ readiness: 40, branding: 15, mileage: 15, cleaning: 15, stabling: 15 });
-  const [models, setModels] = useState<MLModel[]>([]);
-  const [selectedModel, setSelectedModel] = useState<number | null>(null);
   const [predictions, setPredictions] = useState<PredictionResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [modelLoading, setModelLoading] = useState(false);
 
   const update = (k: keyof typeof weights) => (v: number[]) => setWeights((w) => ({ ...w, [k]: v[0] }));
   const total = Object.values(weights).reduce((a, b) => a + b, 0);
@@ -51,71 +41,19 @@ export default function Simulate() {
     { train_id: "KM-003", fc_rs: true, fc_sig: false, fc_tel: true, open_jobs: 1, mileage_km: 880, stabling_penalty: 25, cleaning_due: true },
   ];
 
-  useEffect(() => {
-    fetchMLModels();
-  }, []);
 
-  const fetchMLModels = async () => {
-    try {
-      setModelLoading(true);
-      const response = await fetch("http://localhost:8000/api/ml/models/", {
-        credentials: 'include',
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setModels(data.models);
-        // Auto-select the first active model
-        const activeModel = data.models.find((m: MLModel) => m.is_active);
-        if (activeModel) {
-          setSelectedModel(activeModel.id);
-        }
-      }
-    } catch (error) {
-      console.error("Failed to fetch ML models:", error);
-    } finally {
-      setModelLoading(false);
-    }
-  };
 
   const runSimulation = async () => {
-    if (!selectedModel) {
-      toast.error("Please select an ML model first");
-      return;
-    }
-
     try {
       setIsLoading(true);
       setPredictions(null);
 
-      // Use ML model for predictions
-      const response = await fetch("http://localhost:8000/api/ml/predict/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          model_id: selectedModel,
-          input_data: sampleTrains
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setPredictions(data);
-        toast.success("Simulation completed successfully!");
-      } else {
-        const error = await response.json();
-        toast.error(error.error || "Simulation failed");
-        
-        // Fallback to local calculation
-        runLocalSimulation();
-      }
+      // Run local simulation
+      runLocalSimulation();
+      toast.success("Simulation completed successfully!");
     } catch (error) {
       console.error("Simulation error:", error);
-      toast.error("Connection error, using local simulation");
-      runLocalSimulation();
+      toast.error("Simulation failed");
     } finally {
       setIsLoading(false);
     }
@@ -142,45 +80,12 @@ export default function Simulate() {
     });
   };
 
-  const trainNewModel = async () => {
-    try {
-      setModelLoading(true);
-      const response = await fetch("http://localhost:8000/api/ml/train/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          model_type: "train_optimization",
-          model_name: `Train_Optimization_${Date.now()}`,
-          config: { weights: weights },
-          data_sources: ["IBM Maximo", "Fitness Certificates"]
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        toast.success("Model trained successfully!");
-        fetchMLModels(); // Refresh model list
-        setSelectedModel(data.model_id);
-      } else {
-        const error = await response.json();
-        toast.error(error.error || "Model training failed");
-      }
-    } catch (error) {
-      console.error("Training error:", error);
-      toast.error("Failed to train model");
-    } finally {
-      setModelLoading(false);
-    }
-  };
 
   return (
     <section className="container mx-auto py-10">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">ML-Powered Simulation</h1>
-        <p className="text-muted-foreground">Configure parameters and run AI-driven train optimization scenarios with real-time predictions.</p>
+        <h1 className="text-3xl font-bold tracking-tight">Train Optimization Simulation</h1>
+        <p className="text-muted-foreground">Configure parameters and run train optimization scenarios with real-time predictions.</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -205,69 +110,16 @@ export default function Simulate() {
             <div className="flex gap-2">
               <Button 
                 onClick={runSimulation}
-                disabled={total !== 100 || isLoading || !selectedModel}
+                disabled={total !== 100 || isLoading}
                 className="flex-1"
               >
                 <PlayCircle className="h-4 w-4 mr-2" />
-                {isLoading ? "Running..." : "Run ML Simulation"}
+                {isLoading ? "Running..." : "Run Simulation"}
               </Button>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Brain className="h-5 w-5 text-primary" />
-              ML Model
-            </CardTitle>
-            <CardDescription>Select or train a machine learning model</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {modelLoading ? (
-              <div className="text-center py-4">Loading models...</div>
-            ) : models.length > 0 ? (
-              <div className="space-y-3">
-                {models.map((model) => (
-                  <div 
-                    key={model.id}
-                    className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                      selectedModel === model.id ? 'border-primary bg-primary/5' : 'border-muted hover:border-primary/50'
-                    }`}
-                    onClick={() => setSelectedModel(model.id)}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="font-medium">{model.name}</div>
-                        <div className="text-sm text-muted-foreground">{model.model_type}</div>
-                      </div>
-                      <Badge variant={model.is_active ? "default" : "secondary"}>
-                        {model.is_active ? "Active" : "Inactive"}
-                      </Badge>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <Alert>
-                <Database className="h-4 w-4" />
-                <AlertDescription>
-                  No ML models found. Upload CSV data and train a model to get started.
-                </AlertDescription>
-              </Alert>
-            )}
-            
-            <Button 
-              onClick={trainNewModel}
-              variant="outline" 
-              className="w-full"
-              disabled={modelLoading}
-            >
-              <Brain className="h-4 w-4 mr-2" />
-              {modelLoading ? "Training..." : "Train New Model"}
-            </Button>
-          </CardContent>
-        </Card>
 
         {predictions && (
           <Card className="lg:col-span-2">
