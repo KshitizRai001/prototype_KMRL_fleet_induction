@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'kmrl_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'kmrl_db',
-        'USER': 'postgres',
-        'PASSWORD': 'sixstrings@1',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.environ.get('PGDATABASE', 'postgres'),
+        'USER': os.environ.get('PGUSER', 'postgres'),
+        'PASSWORD': os.environ.get('PGPASSWORD', ''),
+        'HOST': os.environ.get('PGHOST', 'localhost'),
+        'PORT': os.environ.get('PGPORT', '5432'),
     }
 }
 
@@ -140,6 +140,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5000",
     "http://127.0.0.1:5000",
+    "https://55d555b1-0032-467b-a0d9-d1b8f9030afb-00-2neoja64zuz4p.kirk.replit.dev:5000",
 ]
 
 # REST Framework settings
