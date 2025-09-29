@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -241,6 +241,7 @@ export default function Index() {
     stabling: 15,
   });
   const [selected, setSelected] = useState<string | null>(null);
+  const explainabilityRef = useRef<HTMLDivElement>(null);
 
   const trains = INITIAL;
 
@@ -486,7 +487,16 @@ export default function Index() {
                       <TableRow
                         key={r.t.id}
                         className="cursor-pointer"
-                        onClick={() => setSelected(r.t.id)}
+                        onClick={() => {
+                          setSelected(r.t.id);
+                          // Scroll to explainability box
+                          setTimeout(() => {
+                            explainabilityRef.current?.scrollIntoView({
+                              behavior: 'smooth',
+                              block: 'start'
+                            });
+                          }, 100);
+                        }}
                       >
                         <TableCell className="font-medium">{r.t.id}</TableCell>
                         <TableCell>{r.composite}</TableCell>
@@ -515,7 +525,7 @@ export default function Index() {
           </Card>
 
           <div className="space-y-6">
-            <Card>
+            <Card ref={explainabilityRef}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <ShieldCheck className="h-5 w-5 text-primary" />{" "}
