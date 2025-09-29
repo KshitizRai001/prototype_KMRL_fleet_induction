@@ -81,14 +81,11 @@ WSGI_APPLICATION = 'kmrl_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Database configuration - Environment-aware setup
-DATABASE_URL = os.getenv('DATABASE_URL')
+# Database configuration - Always use Supabase
 SUPABASE_DATABASE_URL = os.getenv('SUPABASE_DATABASE_URL')
-ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
-# Use Supabase for production, Replit database for development
-if ENVIRONMENT == 'production' and SUPABASE_DATABASE_URL:
-    # Production: Use Supabase database
+if SUPABASE_DATABASE_URL:
+    # Always use Supabase database for all environments
     DATABASES = {
         'default': dj_database_url.config(
             default=SUPABASE_DATABASE_URL,
@@ -100,26 +97,8 @@ if ENVIRONMENT == 'production' and SUPABASE_DATABASE_URL:
     DATABASES['default']['OPTIONS'] = {
         'sslmode': 'require',
     }
-elif DATABASE_URL:
-    # Development: Use Replit's database
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=DATABASE_URL,
-            conn_max_age=600,
-            conn_health_checks=True
-        )
-    }
-    # Configure SSL for cloud databases (Neon, etc.)
-    if any(provider in DATABASE_URL for provider in ['supabase.co', 'neon.tech', 'aws.neon.tech']):
-        DATABASES['default']['OPTIONS'] = {
-            'sslmode': 'require',
-        }
-    else:
-        DATABASES['default']['OPTIONS'] = {
-            'sslmode': 'prefer',
-        }
 else:
-    # Fallback to SQLite for local development
+    # Fallback to SQLite for local development without Supabase
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
