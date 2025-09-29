@@ -1,5 +1,5 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
@@ -12,6 +12,7 @@ import pandas as pd
 from .models import Train, CSVDataSource, CSVUpload, CSVDataRow, MLModel, MLTrainingSession
 from .serializers import TrainSerializer
 from .ml_models import create_model, get_available_models
+from .authentication import CsrfExemptSessionAuthentication
 
 class TrainViewSet(viewsets.ModelViewSet):
     queryset = Train.objects.all()
@@ -46,8 +47,8 @@ def staff_login(request):
         return Response({'error': 'Invalid credentials or not a staff member'}, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['POST'])
+@authentication_classes([CsrfExemptSessionAuthentication])
 @permission_classes([IsAuthenticated])
-@csrf_exempt
 def staff_logout(request):
     logout(request)
     return Response({'success': True, 'message': 'Logged out successfully'}, status=status.HTTP_200_OK)
