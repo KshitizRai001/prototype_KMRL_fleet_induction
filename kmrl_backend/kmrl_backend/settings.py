@@ -84,14 +84,11 @@ WSGI_APPLICATION = 'kmrl_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('PGDATABASE', 'neondb'),
-        'USER': os.getenv('PGUSER', 'neondb_owner'),
-        'PASSWORD': os.getenv('PGPASSWORD', ''),
-        'HOST': os.getenv('PGHOST', 'localhost'),
-        'PORT': os.getenv('PGPORT', '5432'),
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
+        'NAME': 'kmrl_db',
+        'USER': 'postgres',
+        'PASSWORD': 'sixstrings@1',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
