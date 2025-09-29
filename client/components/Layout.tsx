@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import ModeToggle from "@/components/ModeToggle";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { API_BASE_URL } from "@/config/api";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation();
@@ -32,7 +33,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/auth/profile/", {
+        const response = await fetch(`${API_BASE_URL}/api/auth/profile/`, {
           credentials: 'include',
         });
         
@@ -56,7 +57,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/auth/logout/", {
+      const response = await fetch(`${API_BASE_URL}/api/auth/logout/`, {
         method: 'POST',
         credentials: 'include',
       });
