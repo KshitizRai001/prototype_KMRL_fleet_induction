@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { FileText, Upload } from "lucide-react";
 
 function parseCSV(text: string): { headers: string[]; rows: string[][] } {
   const rows: string[][] = [];
@@ -124,12 +125,32 @@ export default function CSVImporter({ source }: { source: string }) {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Input
-              ref={fileRef}
-              type="file"
-              accept=".csv,text/csv"
-              onChange={onFile}
-            />
+            <div className="relative">
+              <Input
+                ref={fileRef}
+                type="file"
+                accept=".csv,text/csv"
+                onChange={onFile}
+                className="absolute inset-0 opacity-0 cursor-pointer z-10"
+              />
+              <Button 
+                variant={name ? "default" : "outline"}
+                className={`${name ? 'bg-green-600 hover:bg-green-700 text-white' : ''} min-w-[140px]`}
+                type="button"
+              >
+                {name ? (
+                  <>
+                    <FileText className="h-4 w-4 mr-2" />
+                    File Selected
+                  </>
+                ) : (
+                  <>
+                    <Upload className="h-4 w-4 mr-2" />
+                    Choose CSV File
+                  </>
+                )}
+              </Button>
+            </div>
             <Button variant="outline" onClick={reset} disabled={!name}>
               Clear
             </Button>
@@ -139,9 +160,15 @@ export default function CSVImporter({ source }: { source: string }) {
           </div>
         </div>
         {name && (
-          <div className="text-sm">
-            Selected: <Badge variant="secondary">{name}</Badge> · Rows:{" "}
-            {rows.length}
+          <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+            <div className="flex items-center gap-2 text-green-800">
+              <FileText className="h-4 w-4" />
+              <span className="font-medium">Selected file:</span>
+              <Badge variant="default" className="bg-green-600">{name}</Badge>
+            </div>
+            <div className="text-sm text-green-700 mt-1">
+              Contains {rows.length} data rows with {headers.length} columns
+            </div>
           </div>
         )}
         {!!headers.length && (
