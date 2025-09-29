@@ -47,6 +47,7 @@ def staff_login(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
+@csrf_exempt
 def staff_logout(request):
     logout(request)
     return Response({'success': True, 'message': 'Logged out successfully'}, status=status.HTTP_200_OK)
