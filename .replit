@@ -7,6 +7,44 @@ integrations = ["python_database:1.0.0"]
 channel = "stable-25_05"
 
 [workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Frontend Server"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Django API"
+
+[[workflows.workflow]]
+name = "Frontend Server"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow]]
+name = "Django API"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd kmrl_backend && python manage.py runserver localhost:8000"
+waitForPort = 8000
+
+[workflows.workflow.metadata]
+outputType = "console"
 
 [[ports]]
 localPort = 5000
@@ -15,6 +53,11 @@ externalPort = 80
 [[ports]]
 localPort = 8000
 externalPort = 8000
+exposeLocalhost = true
+
+[[ports]]
+localPort = 35153
+externalPort = 3001
 
 [[ports]]
 localPort = 40969
