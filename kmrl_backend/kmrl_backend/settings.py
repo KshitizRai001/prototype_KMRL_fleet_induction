@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-2xq7f=x0u@l08i4&2yyr=+(c*d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.railway.app','*']
 
 
 # Application definition
@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -87,12 +88,8 @@ SUPABASE_DATABASE_URL = os.getenv('SUPABASE_DATABASE_URL')
 if SUPABASE_DATABASE_URL:
     # Always use Supabase database for all environments
     DATABASES = {
-        'default': dj_database_url.config(
-            default=SUPABASE_DATABASE_URL,
-            conn_max_age=600,
-            conn_health_checks=True
-        )
-    }
+    'default': dj_database_url.config(conn_max_age=600, ssl_require=False)
+}
     # Supabase always requires SSL
     DATABASES['default']['OPTIONS'] = {
         'sslmode': 'require',
