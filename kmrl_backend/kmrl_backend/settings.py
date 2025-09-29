@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -25,10 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2xq7f=x0u@l08i4&2yyr=+(c*dv_xwrsbe-!7c@yv($b-lg)3m'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-2xq7f=x0u@l08i4&2yyr=+(c*dv_xwrsbe-!7c@yv($b-lg)3m')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
 
@@ -80,16 +81,37 @@ WSGI_APPLICATION = 'kmrl_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'kmrl_db',
-        'USER': 'postgres',
-        'PASSWORD': 'sixstrings@1',
-        'HOST': 'localhost',
-        'PORT': '5432',
+# Database configuration using Supabase
+DATABASE_URL = os.getenv('DATABASE_URL')
+
+if DATABASE_URL:
+    # Use Supabase database
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True
+        )
     }
-}
+    # Configure SSL for cloud databases (Supabase, Neon, etc.)
+    if any(provider in DATABASE_URL for provider in ['supabase.co', 'neon.tech', 'aws.neon.tech']):
+        # Cloud providers require SSL
+        DATABASES['default']['OPTIONS'] = {
+            'sslmode': 'require',
+        }
+    else:
+        # Local or internal databases may not require SSL
+        DATABASES['default']['OPTIONS'] = {
+            'sslmode': 'prefer',
+        }
+else:
+    # Fallback to local database for development
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -141,6 +163,12 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5000",
     "https://55d555b1-0032-467b-a0d9-d1b8f9030afb-00-2neoja64zuz4p.kirk.replit.dev:5000",
 ]
+
+# Add dynamic CORS origins for Netlify deployment
+if os.getenv('NETLIFY_URL'):
+    CORS_ALLOWED_ORIGINS.append(os.getenv('NETLIFY_URL'))
+if os.getenv('FRONTEND_URL'):
+    CORS_ALLOWED_ORIGINS.append(os.getenv('FRONTEND_URL'))
 
 # REST Framework settings
 REST_FRAMEWORK = {
