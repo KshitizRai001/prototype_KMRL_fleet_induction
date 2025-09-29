@@ -89,7 +89,7 @@ export default function CSVImporter({ source }: { source: string }) {
         headers,
         rows: objects.slice(0, 1000),
       };
-      const res = await fetch("/api/ingest", {
+      const res = await fetch(`${import.meta.env.DEV ? "" : "/.netlify/functions"}/api/ingest`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

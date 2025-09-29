@@ -64,10 +64,15 @@ ALLOWED_HOSTS=your-site.netlify.app,.netlify.app
 # Supabase Database
 SUPABASE_DATABASE_URL=postgresql://postgres.your_ref:[password]@aws-0-region.pooler.supabase.co:5432/postgres
 
-# Frontend Configuration  
+# Frontend / API Configuration  
+# Netlify Functions base (Express)
 VITE_API_BASE_URL=/.netlify/functions
+# Django API base (public URL where Django is deployed)
+VITE_DJANGO_API_BASE=https://your-django-host
+# Netlify Functions -> Django backend base URL (same as above)
+DJANGO_API_URL=https://your-django-host
 
-# CORS Configuration
+# CORS / CSRF Configuration
 FRONTEND_URL=https://your-site.netlify.app
 NETLIFY_URL=https://your-site.netlify.app
 ```

@@ -9,7 +9,9 @@ export const handleIngest: RequestHandler = async (req, res) => {
 
     // Forward CSV data to Django backend for storage
     try {
-      const djangoResponse = await fetch("http://localhost:8000/api/csv/ingest/", {
+      const base = process.env.DJANGO_API_URL ?? "http://localhost:8000";
+      const url = `${base.replace(/\/$/, "")}/api/csv/ingest/`;
+      const djangoResponse = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -19,7 +21,7 @@ export const handleIngest: RequestHandler = async (req, res) => {
           source,
           fileName,
           headers,
-          rows
+          rows,
         }),
       });
 
@@ -39,7 +41,7 @@ export const handleIngest: RequestHandler = async (req, res) => {
           message: `Received ${count ?? rows.length} rows for ${source}${fileName ? ` from ${fileName}` : ""} (storage pending).`,
           headers: Array.from(new Set(headers)),
           sample: rows.slice(0, 3),
-          warning: "Data stored locally, backend storage pending"
+          warning: "Data stored locally, backend storage pending",
         });
       }
     } catch (fetchError) {
@@ -49,10 +51,9 @@ export const handleIngest: RequestHandler = async (req, res) => {
         message: `Received ${count ?? rows.length} rows for ${source}${fileName ? ` from ${fileName}` : ""} (local processing).`,
         headers: Array.from(new Set(headers)),
         sample: rows.slice(0, 3),
-        warning: "Backend unavailable, processed locally"
+        warning: "Backend unavailable, processed locally",
       });
     }
-
   } catch (e) {
     return res.status(500).json({ message: (e as Error).message });
   }

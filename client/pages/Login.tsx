@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "sonner";
-import { API_BASE_URL } from "@/config/api";
+import { API_DJANGO_BASE } from "@/config/api";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/login/`, {
+      const response = await fetch(`${API_DJANGO_BASE}/api/auth/login/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,7 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/signup/`, {
+      const response = await fetch(`${API_DJANGO_BASE}/api/auth/signup/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

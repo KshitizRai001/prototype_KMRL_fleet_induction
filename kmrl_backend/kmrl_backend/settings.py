@@ -163,6 +163,18 @@ if os.getenv('NETLIFY_URL'):
 if os.getenv('FRONTEND_URL'):
     CORS_ALLOWED_ORIGINS.append(os.getenv('FRONTEND_URL'))
 
+# CSRF trusted origins (required for cross-site session auth from Netlify)
+CSRF_TRUSTED_ORIGINS = []
+if os.getenv('NETLIFY_URL'):
+    CSRF_TRUSTED_ORIGINS.append(os.getenv('NETLIFY_URL'))
+if os.getenv('FRONTEND_URL'):
+    CSRF_TRUSTED_ORIGINS.append(os.getenv('FRONTEND_URL'))
+
+# Secure cookies in production
+SESSION_COOKIE_SAMESITE = 'None' if not DEBUG else 'Lax'
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
 # REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
