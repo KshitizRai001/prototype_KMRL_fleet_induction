@@ -43,7 +43,7 @@ export default function Login() {
 
       if (response.ok && data.success) {
         toast.success(`Welcome back, ${data.user.first_name || data.user.username}!`);
-        localStorage.setItem('staff_user', JSON.stringify(data.user));
+        // Session is automatically handled by cookies, no need for localStorage
         navigate("/dashboard");
       } else {
         toast.error(data.error || "Login failed");
